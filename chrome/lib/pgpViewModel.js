@@ -189,9 +189,10 @@ define(function(require, exports, module) {
         var found = openpgp.keyring.getPublicKeysForKeyId(result[i].getKeyId());
         if (found.length > 0) {
           throw {
-            type: 'error',
-            message: 'A public key with the ID ' + util.hexstrdump(result[i].getKeyId()).toUpperCase() + ' is already in the key ring. Update currently not supported'
-          };
+            type: 'info',
+            message: 'A public key with the ID ' + util.hexstrdump(result[i].getKeyId()).toUpperCase() + ' is already in the key ring.'
+          }
+          continue;
         }
         openpgp.keyring.publicKeys.push({armored: text, obj: result[i], keyId: result[i].getKeyId()});
       }
@@ -202,9 +203,10 @@ define(function(require, exports, module) {
         var found = openpgp.keyring.getPrivateKeyForKeyId(result[i].getKeyId());
         if (found.length > 0) {
           throw {
-            type: 'error',
-            message: 'A private key pair with the ID ' + util.hexstrdump(result[i].getKeyId()).toUpperCase() + ' is already in the key ring. Update currently not supported'
+            type: 'info',
+            message: 'A private key pair with the ID ' + util.hexstrdump(result[i].getKeyId()).toUpperCase() + ' is already in the key ring.'
           }
+          continue;
         }
         // check if public key already in key ring
         found = openpgp.keyring.getPublicKeysForKeyId(result[i].getKeyId());
@@ -223,9 +225,9 @@ define(function(require, exports, module) {
             openpgp.keyring.publicKeys.push({armored: pubArmored, obj: pubKey[j], keyId: pubKey[j].getKeyId()});
           }
         }
-        openpgp.keyring.privateKeys.push({armored: text, obj: result[i], keyId: result[i].getKeyId()});
       }
     }
+      //Document.getElementById('TestID').innerHTML = 'Upload (Test) is done';
     openpgp.keyring.store();
     return result.map(function(key) {
       return {
