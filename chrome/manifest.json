@@ -22,7 +22,9 @@
   "permissions": [
     "tabs",
     "webRequest",
+    "storage",
     "*://*/*",
+    "*://*/",
     "clipboardWrite"
   ],
   "web_accessible_resources": [

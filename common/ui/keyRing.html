@@ -35,6 +35,7 @@
     <script src="watchList.js"></script>
     <script src="exportKey.js"></script>
     <script src="security.js"></script>
+    <script src="miscellaneous.js"></script>
     <script src="general.js"></script>
   </head>
   <body>
@@ -72,6 +73,7 @@
               <li><a href="#general" data-toggle="tab">General</a></li>
               <li><a href="#security" data-toggle="tab">Security</a></li>
               <li><a href="#watchList" data-toggle="tab">Watch List</a></li>
+              <li><a href="#miscellaneous" data-toggle="tab">Miscellaneous</a></li>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
@@ -404,6 +406,42 @@
                   <button id="genBtnCancel" class="btn" disabled>Cancel</button>
                 </div>
               </form>
+            </div>
+            <div id="miscellaneous" class="tab-pane fade">
+                <h3>Miscellaneous</h3>
+                <form id="misFormId" class="form-vertical well" onsubmit="return false">
+                    <div class="control-group">
+                        <label class="control-label" for="misKeyFilepath"><h4>Enter the URL to the public key file<h4></label>
+                        <input type="text" name="filepath" id="misKeyFilepath" />
+                    </div>
+                    <div class="control-group">
+                        <div id="path">
+                            <span id="currentPathId" value=""></span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div id="misAlert">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button id="misKeySubmit" class="btn btn-primary">Save</button>
+                    </div>
+                    <div class="control-group">
+                        <label class="checkbox">
+                            <input type="checkbox" id="updateCB"> Show update-button on mainpage
+                        </label>
+                        <label class="checkbox">
+                            <input type="checkbox" id="credentialCB"> Use credentials for the server
+                        </label>
+                    </div>
+                    <div class="control-group">
+                        <label for="usernameId">Username:</label>
+                        <input id="usernameId" type="text" value=""/>
+
+                        <label for="passwordId">Password:</label>
+                        <input id="passwordId" type="password" value=""/>
+                    </div>
+                </form>
             </div>
           </div>    
         </div><!--/span-->

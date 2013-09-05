@@ -34,6 +34,9 @@ define(function (require, exports, module) {
     if (obj.general) {
       prefs.general = extend(prefs.general, obj.general);
     }
+    if (obj.miscellaneous){
+      prefs.miscellaneous = extend(prefs.miscellaneous, obj.miscellaneous);
+    }
     model.setPreferences(prefs);
     // notifiy update handlers
     updateHandlers.forEach(function(fn) {

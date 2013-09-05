@@ -181,7 +181,6 @@ define(function(require, exports, module) {
   }
   
   function importKey(text, keyType) {
-    var result;
     if (keyType === 'public') {
       result = openpgp.read_publicKey(text);
       for (var i = 0; i < result.length; i++) {
@@ -467,9 +466,20 @@ define(function(require, exports, module) {
     return JSON.parse(window.localStorage.getItem('mailvelopePreferences'));
   }
 
+  function getUpdatePath() {
+      return  window.localStorage.getItem('mailvelopeUpdatePath');
+  }
+
+  function setUpdatePath(updatePath) {
+      window.localStorage.setItem('mailvelopeUpdatePath', updatePath);
+  }
+
   function setPreferences(preferences) {
     window.localStorage.setItem('mailvelopePreferences', JSON.stringify(preferences));
   }
+
+  exports.getUpdatePath = getUpdatePath;
+  exports.setUpdatePath = setUpdatePath;
 
   exports.getPreferences = getPreferences;
   exports.setPreferences = setPreferences;
