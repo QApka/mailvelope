@@ -43,17 +43,25 @@
     // once they're all done, call importDone() to refresh the ui
     var importKey = function(key, keyType){
       keyRing.viewModel('importKey', [key, keyType.toLowerCase()], function(result, error){
-        if (!error) {
-          $('#importAlert').showAlert('Success', keyType + ' key ' + result[0].keyid + ' of user ' + result[0].userid + ' imported into key ring', 'success', true);
-          nsucceeded++;
-        } else {
-          $('#importAlert').showAlert('Import Error', error.type === 'error' ? error.message : 'Not a valid key text', 'error', true);
-          nfailed++;
-        }
-        if(nsucceeded + nfailed == ntotal){
-          // finished importing! 
-          importDone(nsucceeded > 0);
-        }
+          if (!error && result[0].type != 'info'){
+              $('#importAlert').showAlert('Success', keyType + ' key ' + result[0].keyid + ' of user ' + result[0].userid + ' imported into key ring', 'success', true);
+              console.log("SUCCESS DUPLICAT: ");
+              nsucceeded++;
+          }
+          else if (!error && result[0].type == 'info'){
+              $('#importAlert').showAlert('Import Info', keyType + ' key ' + result[0].keyid + ' of user ' + result[0].userid + ' is already in key ring', 'info', true);
+              console.log("INFO DUPLICAT: ");
+              nsucceeded++;
+          }
+          else if (error.type === 'error') {
+              $('#importAlert').showAlert('Import Error', 'Not a valid key text', 'error', true);
+              console.log("ERROR: ");
+              nfailed++;
+          }
+          if(nsucceeded + nfailed == ntotal){
+            // finished importing!
+            importDone(nsucceeded > 0);
+          }
       });
     }
     for(var i = 0; i < npublic; i++){

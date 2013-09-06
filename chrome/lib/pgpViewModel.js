@@ -181,17 +181,17 @@ define(function(require, exports, module) {
   }
   
   function importKey(text, keyType) {
+      var type = '';
+      var message = '';
     if (keyType === 'public') {
       result = openpgp.read_publicKey(text);
       for (var i = 0; i < result.length; i++) {
         // check if public key already in key ring
         var found = openpgp.keyring.getPublicKeysForKeyId(result[i].getKeyId());
         if (found.length > 0) {
-          throw {
-            type: 'info',
-            message: 'A public key with the ID ' + util.hexstrdump(result[i].getKeyId()).toUpperCase() + ' is already in the key ring.'
-          }
-          continue;
+            type = 'info';
+            message = 'A public key with the ID ' + util.hexstrdump(result[i].getKeyId()).toUpperCase() + ' is already in the key ring.';
+            continue;
         }
         openpgp.keyring.publicKeys.push({armored: text, obj: result[i], keyId: result[i].getKeyId()});
       }
@@ -201,11 +201,10 @@ define(function(require, exports, module) {
         // check if private key already in key ring
         var found = openpgp.keyring.getPrivateKeyForKeyId(result[i].getKeyId());
         if (found.length > 0) {
-          throw {
-            type: 'info',
-            message: 'A private key pair with the ID ' + util.hexstrdump(result[i].getKeyId()).toUpperCase() + ' is already in the key ring.'
-          }
-          continue;
+            type = 'info';
+            message = 'A private key pair with the ID ' + util.hexstrdump(result[i].getKeyId()).toUpperCase() + ' is already in the key ring.';
+            continue;
+        }
         }
         // check if public key already in key ring
         found = openpgp.keyring.getPublicKeysForKeyId(result[i].getKeyId());
@@ -224,14 +223,15 @@ define(function(require, exports, module) {
             openpgp.keyring.publicKeys.push({armored: pubArmored, obj: pubKey[j], keyId: pubKey[j].getKeyId()});
           }
         }
-      }
     }
       //Document.getElementById('TestID').innerHTML = 'Upload (Test) is done';
     openpgp.keyring.store();
     return result.map(function(key) {
       return {
         keyid: util.hexstrdump(key.getKeyId()).toUpperCase(),
-        userid: key.userIds[0].text
+        userid: key.userIds[0].text,
+        type: type,
+        message: message
       }
     });
   }
